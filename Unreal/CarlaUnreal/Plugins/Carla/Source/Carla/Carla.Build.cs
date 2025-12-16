@@ -103,35 +103,43 @@ public class Carla :
 
     PrivateDependencyModuleNames.AddRange(new string[]
     {
-      "AIModule",
       "AssetRegistry",
-      "CoreUObject",
-      "Engine",
       "Foliage",
       "HTTP",
       "StaticMeshDescription",
       "ImageWriteQueue",
-      "Json",
-      "JsonUtilities",
       "Landscape",
       "Slate",
       "SlateCore",
-      "PhysicsCore",
-      "MeshConversion",
-      "Chaos",
-      "ChaosVehicles"
+      "MeshConversion"
     });
 
     PublicDependencyModuleNames.AddRange(new string[]
     {
       "Core",
+      "CoreUObject",
+      "Engine",
+      "AIModule",
+      "Json",
+      "JsonUtilities",
+      "PhysicsCore",
+      "Chaos",
+      "ChaosVehicles",
       "RenderCore",
       "RHI",
       "Renderer",
       "ProceduralMeshComponent",
       "MeshDescription",
-      "Projects"
+      "Projects",
+      "AnimGraphRuntime",
+      "NavigationSystem"
     });
+    
+    // Platform-specific linker settings
+    if (Target.Platform == UnrealTargetPlatform.Mac)
+    {
+      PublicAdditionalLinkerFlags.Add("-undefined dynamic_lookup");
+    }
 
     if (EnableCarSim)
     {

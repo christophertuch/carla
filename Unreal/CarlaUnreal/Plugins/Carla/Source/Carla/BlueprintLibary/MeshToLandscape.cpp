@@ -9,6 +9,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "StaticMeshLODResourcesAdapter.h"
 #include "PhysicsEngine/PhysicsObjectExternalInterface.h"
+#include "Physics/Experimental/PhysScene_Chaos.h"
 #include "Async/ParallelFor.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Engine/CollisionProfile.h"
@@ -343,8 +344,7 @@ ALandscape* UMeshToLandscapeUtil::ConvertMeshesToLandscape(
 				UE_M_TO_CM) * 2.5F);
 
 		auto LockedPhysObject = FPhysicsObjectExternalInterface::LockRead(
-			World->GetPhysicsScene());
-
+						World->GetPhysicsScene());
 		ParallelFor(HeightmapData.Num(), [&](int32 Index)
 		{
 			int32 Y = Index / HeightmapExtent.X;
@@ -367,7 +367,7 @@ ALandscape* UMeshToLandscapeUtil::ConvertMeshesToLandscape(
 
 			FRandomStream PRNG(Index);
 
-			if (!World->ParallelSweepSingleByChannel(
+			if (!World->SweepSingleByChannel(
 				Hit,
 				Begin,
 				End,
@@ -383,7 +383,7 @@ ALandscape* UMeshToLandscapeUtil::ConvertMeshesToLandscape(
 			int32 Retry = 0;
 			for (; Retry < MaxRetries; ++Retry) // Sometimes, LTSBC fails on geometry seams
 			{
-				if (World->ParallelLineTraceSingleByChannel(
+				if (World->LineTraceSingleByChannel(
 					Hit,
 					Begin, End,
 					ECollisionChannel::ECC_GameTraceChannel2,

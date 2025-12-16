@@ -259,7 +259,7 @@ bool ARayCastSemanticLidar::ShootLaser(const float VerticalAngle, const float Ho
   const auto Range = Description.Range;
   FVector EndTrace = Range * UKismetMathLibrary::GetForwardVector(ResultRot) + LidarBodyLoc;
   
-  GetWorld()->ParallelLineTraceSingleByChannel(
+  GetWorld()->LineTraceSingleByChannel(
     HitInfo,
     LidarBodyLoc,
     EndTrace,

@@ -32,5 +32,12 @@ public class CarlaUnrealEditorTarget : TargetRules
             bForceUnityBuild =
             bUseAdaptiveUnityBuild = false;
         }
+        
+        // Allow plugins to have undefined symbols resolved at runtime from the editor
+        if (Platform == UnrealTargetPlatform.Mac)
+        {
+            bOverrideBuildEnvironment = true;
+            AdditionalLinkerArguments = "\"-undefined dynamic_lookup\"";
+        }
     }
 }

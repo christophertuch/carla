@@ -92,6 +92,7 @@ namespace carla {
       copy_from(data, size);
     }
 
+#if !defined(__APPLE__) || SIZE_MAX == UINT32_MAX
     /// @copydoc Buffer(size_type)
     explicit Buffer(const value_type *data, uint64_t size)
       : Buffer(data, [size]() {
@@ -100,6 +101,7 @@ namespace carla {
           }
           return static_cast<size_type>(size);
         } ()) {}
+#endif
 
     Buffer(const Buffer &) = delete;
 
@@ -258,6 +260,7 @@ namespace carla {
       _size = size;
     }
 
+#if !defined(__APPLE__) || SIZE_MAX == UINT32_MAX
     /// @copydoc reset(size_type)
     void reset(uint64_t size) {
       if (size > max_size()) {
@@ -265,6 +268,7 @@ namespace carla {
       }
       reset(static_cast<size_type>(size));
     }
+#endif
 
     /// Resize the buffer, a new block of size @a size is
     /// allocated if the capacity is not enough and the data is copied.
